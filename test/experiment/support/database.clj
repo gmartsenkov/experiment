@@ -1,6 +1,7 @@
 (ns experiment.support.database
   (:require [clojure.java.jdbc :as jdbc]
-            [experiment.core :refer [database]]))
+            [experiment.core :refer [database]]
+            [experiment.repositories.helpers :refer :all]))
 
 (defn clear-db-fixture
   "Helper function to clear the database between tests"
@@ -16,10 +17,22 @@
                {:result-set-fn first})
    :count))
 
-(defn build-factory
+(def default-attributes
+  "Contains all the default attributes for the factory-build function"
+  {:user {
+          :first_name "Jon"
+          :last_name "Snow"
+          :email "jon@email"
+          :password "secret"}})
+
+(defn insert
+  "Inserts a record into the specified table in the database"
+  [relation attributes]
+  (first (jdbc/insert! database relation (add-timestamps attributes))))
+
+(defn factory-build
   "Helper function to easily create db record in tests"
   [relation attributes]
   (case relation
-    ))
-
-(build-f
+    :user (insert :users (conj (:user default-attributes) attributes))
+    (throw (Exception. (format "Factory %s does not exist" relation)))))
