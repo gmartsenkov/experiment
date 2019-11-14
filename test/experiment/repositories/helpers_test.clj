@@ -11,3 +11,12 @@
             now (sql-timestamp 1970 1 1 1)
             expected {:test 1 :created_at now :updated_at now}]
         (is (= result expected))))))
+
+(deftest test-touch
+  (testing "adds updated_at timestamp"
+    (with-clock (mock-clock 0)
+      (let [input {:test 1 :updated_at "something"}
+            result (touch input)
+            now (sql-timestamp 1970 1 1 1)
+            expected {:test 1 :updated_at now}]
+        (is (= result expected))))))
