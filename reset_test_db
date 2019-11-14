@@ -1,0 +1,1 @@
+ DATABASE_URL="postgresql://localhost/projectx_test?user=projectx&password=project" lein migratus reset
