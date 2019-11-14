@@ -1,5 +1,5 @@
 (ns experiment.repositories.helpers
-  (:use [java-time]))
+  (:require [java-time :refer [sql-timestamp local-date]]))
 
 (defn add-timestamps [map]
   "Adds create/update timestamps to map"

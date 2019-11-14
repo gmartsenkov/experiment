@@ -1,7 +1,7 @@
 (ns experiment.repositories.helpers-test
   (:require [clojure.test :refer :all]
-            [experiment.repositories.helpers :refer :all])
-  (:use [java-time]))
+            [experiment.repositories.helpers :refer :all]
+            [java-time :refer [with-clock mock-clock sql-timestamp]]))
 
 (deftest test-add-timestamp
   (testing "adds timestamps"
