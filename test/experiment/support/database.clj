@@ -3,13 +3,12 @@
             [experiment.core :refer [database]]
             [experiment.repositories.helpers :refer :all]))
 
-(defn clear-db-fixture
+(defn clear-db
   "Helper function to clear the database between tests"
-  [function]
-  (jdbc/execute! database ["TRUNCATE TABLE users RESTART IDENTITY"])
-  (function))
+  []
+  (jdbc/execute! database ["TRUNCATE TABLE users RESTART IDENTITY"]))
 
-(defn count
+  (defn count
   "Helper function to return the row count of a table"
   [relation]
   (->
@@ -36,3 +35,9 @@
   (case relation
     :user (insert :users (conj (:user default-attributes) attributes))
     (throw (Exception. (format "Factory %s does not exist" relation)))))
+
+(defn clear-db-fixture
+  "Fixture wrapping the clear-db function"
+  [function]
+  (clear-db)
+  (function))

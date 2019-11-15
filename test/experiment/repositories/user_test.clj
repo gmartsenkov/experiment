@@ -40,7 +40,7 @@
                       :last_name "Snow"
                       :email "jon@email"
                       :password "secret"}
-          expected {:id 2
+          expected {:id 1
                     :first_name "Jon"
                     :last_name "Snow"
                     :email "jon@email"
@@ -52,7 +52,8 @@
         (do
           (is (= 0 (db/count "users")))
           (create)
-          (is (= 1 (db/count "users")))))
+          (is (= 1 (db/count "users")))
+          (db/clear-db)))
       (testing "it returns the user"
         (is (= expected (create)))))))
 
