@@ -7,6 +7,32 @@
 
 (use-fixtures :each db/clear-db-fixture)
 
+(deftest test-by-id
+  (let [user (db/factory-build :user {:email "rob@email"})
+        user-2 (db/factory-build :user {:email "bob@email"})
+        find (fn [u] (repo/by-id (:id u)))]
+    (testing "returns nil when user does not exist"
+      (is (= nil (repo/by-id 0))))
+    (testing "it returns correct user"
+      (is (= 1 (:id (find user))))
+      (is (= "rob@email" (:email (find user)))))
+    (testing "it works with another user"
+      (is (= 2 (:id (find user-2))))
+      (is (= "bob@email" (:email (find user-2)))))))
+
+(deftest test-by-email
+  (let [user (db/factory-build :user {:email "rob@email"})
+        user-2 (db/factory-build :user {:email "bob@email"})
+        find (fn [u] (repo/by-email (:email u)))]
+    (testing "returns nil when user does not exist"
+      (is (= nil (repo/by-id 0))))
+    (testing "it returns correct user"
+      (is (= 1 (:id (find user))))
+      (is (= "rob@email" (:email (find user)))))
+    (testing "it works with another user"
+      (is (= 2 (:id (find user-2))))
+      (is (= "bob@email" (:email (find user-2)))))))
+
 (deftest test-create
   (with-clock (mock-clock 0)
     (let [now (sql-timestamp 1970 1 1 1)
