@@ -8,7 +8,7 @@
   []
   (jdbc/execute! database ["TRUNCATE TABLE users RESTART IDENTITY"]))
 
-  (defn count
+(defn count
   "Helper function to return the row count of a table"
   [relation]
   (->
@@ -16,7 +16,7 @@
                {:result-set-fn first})
    :count))
 
-(def default-attributes
+(def ^:private default-attributes
   "Contains all the default attributes for the factory-build function"
   {:user {
           :first_name "Jon"
@@ -24,7 +24,7 @@
           :email "jon@email"
           :password "secret"}})
 
-(defn insert
+(defn- insert
   "Inserts a record into the specified table in the database"
   [relation attributes]
   (first (jdbc/insert! database relation (add-timestamps attributes))))
