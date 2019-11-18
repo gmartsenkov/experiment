@@ -38,24 +38,33 @@
     (let [now (sql-timestamp 1970 1 1 1)
           attributes {:first_name "Jon"
                       :last_name "Snow"
-                      :email "jon@email"
+                      :email "jon@email.com"
                       :password "secret"}
           expected {:id 1
                     :first_name "Jon"
                     :last_name "Snow"
-                    :email "jon@email"
-                    :password "secret"
-                    :created_at now
-                    :updated_at now}
+                    :email "jon@email.com"}
+          expected-db-row {:id 1
+                           :first_name "Jon"
+                           :last_name "Snow"
+                           :email "jon@email.com"
+                           :password "secret"
+                           :updated_at now
+                           :created_at now}
           create (fn [] (repo/create attributes))]
       (testing "creates a record in the database"
         (do
           (is (= 0 (db/count "users")))
           (create)
-          (is (= 1 (db/count "users")))
-          (db/clear-db)))
+          (is (= 1 (db/count "users")))))
       (testing "it returns the user"
-        (is (= expected (create)))))))
+        (do
+          (db/clear-db)
+          (is (= expected (create)))))
+      (testing "it creates the correct row in the database"
+        (do
+          (db/clear-db)
+          (is (= expected-db-row (db/fetch (:id (create)) "users"))))))))
 
 (deftest test-update
   (with-clock (mock-clock 0)
@@ -69,10 +78,7 @@
           expected {:id 1
                     :first_name "Rob"
                     :last_name "Stark"
-                    :email "rob@email"
-                    :password "new_secret"
-                    :created_at now
-                    :updated_at now}
+                    :email "rob@email"}
           update (fn [] (repo/update user-id attributes))]
       (testing "does not create a record in the database"
         (do

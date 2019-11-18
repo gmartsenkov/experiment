@@ -16,6 +16,11 @@
                {:result-set-fn first})
    :count))
 
+(defn fetch
+  "Helper function to fetch a record from the db with all columns"
+  [id table]
+  (first (jdbc/query database [(str "SELECT * from " table " where id = ?") id])))
+
 (def ^:private default-attributes
   "Contains all the default attributes for the factory-build function"
   {:user {

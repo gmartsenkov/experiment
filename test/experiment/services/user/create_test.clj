@@ -19,6 +19,5 @@
   (testing "when params are valid and user does not exist"
     (with-clock (mock-clock 0)
       (let [params {:email "jon@snow.com" :first_name "Jon" :last_name "Snow" :password "1234"}
-            now (sql-timestamp 1970 1 1 1)
-            expected-user (conj params {:id 2 :updated_at now :created_at now})]
+            expected-user {:id 2 :first_name "Jon" :last_name "Snow" :email "jon@snow.com"}]
         (is (= [:user-created expected-user] (service/call params)))))))

@@ -10,6 +10,7 @@
                  [environ "1.1.0"]
                  [ring/ring-mock "0.4.0"]
                  [clojure.java-time "0.3.2"]
+                 [honeysql "0.9.8"]
                  [ring/ring-defaults "0.3.2"]]
   :plugins [[lein-ring "0.12.5"]
             [migratus-lein "0.7.2"]
