@@ -1,7 +1,6 @@
 (ns experiment.services.bcrypt
   (:import (at.favre.lib.crypto.bcrypt BCrypt BCrypt$Hasher BCrypt$Verifyer)))
 
-
 (defn encrypt
   [password]
   (-> (BCrypt/withDefaults)
