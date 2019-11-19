@@ -15,12 +15,14 @@
                .build))
 
 (defn- map-claims
+  "Map JWT claims into a clojure map"
   [claims]
   {:user {:id (-> claims (.get "user_id") .asInt)
           :first_name (-> claims (.get "user_first_name") .asString)
           :last_name (-> claims (.get "user_last_name") .asString)}})
 
 (defn encode
+  "Generate a JWT token with the some basic user information"
   [user]
   (-> (JWT/create)
       (.withIssuer issuer)
@@ -30,6 +32,8 @@
       (.sign algorithm)))
 
 (defn decode
+  "Decodes a JWT into a map with the user information
+  Returns :invalid-token if token is not valid or expired"
   [token]
   (try
     (-> verifier
