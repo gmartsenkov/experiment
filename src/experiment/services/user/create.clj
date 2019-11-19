@@ -1,7 +1,7 @@
 (ns experiment.services.user.create
-  (:require [experiment.repositories.user :as user-repo ]
-            [experiment.specs.sign-up :as spec]
-            [buddy.hashers :as hasher]))
+  (:require [experiment.services.bcrypt :as bcrypt]
+            [experiment.repositories.user :as user-repo]
+            [experiment.specs.sign-up :as spec]))
 
 (defn- user-exists?
   ""
@@ -10,7 +10,7 @@
 
 (defn- encrypt-password
   [user]
-  (conj user {:password (hasher/derive (:password user))}))
+  (assoc user :password (bcrypt/encrypt (:password user))))
 
 (defn call
   "#TODO"
