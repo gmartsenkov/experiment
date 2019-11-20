@@ -7,7 +7,7 @@
       (.hashToString 12 (.toCharArray password))))
 
 (defn match?
-  [encrypted, raw]
+  [raw, encrypted]
   (-> (BCrypt/verifyer)
       (.verify (.toCharArray raw) encrypted)
       .verified))

@@ -4,7 +4,6 @@
             [experiment.specs.sign-up :as spec]))
 
 (defn- user-exists?
-  ""
   [user]
   (not= nil (user-repo/by-email (:email user))))
 
@@ -13,7 +12,6 @@
   (assoc user :password (bcrypt/encrypt (:password user))))
 
 (defn call
-  "#TODO"
   [attrs]
   (cond
     (spec/invalid? attrs) [:invalid-attributes (spec/errors attrs)]

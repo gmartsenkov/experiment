@@ -20,7 +20,7 @@
   "Fetches the user by email"
   [email]
   (first (jdbc/query database (sql/format
-                               {:select visible_fields
+                               {:select (conj visible_fields :password)
                                 :from [table]
                                 :where [:= :email email]}))))
 
