@@ -22,7 +22,8 @@
   :ring {:handler experiment.handler/app}
   :migratus {:store :database
            :migration-dir "migrations"
-           :db (get (System/getenv) "DATABASE_URL")}
+             :db (get (System/getenv) "DATABASE_URL")}
+  :uberjar-name "experiment-standalone.jar"
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.2"]]}
