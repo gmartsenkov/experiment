@@ -27,4 +27,4 @@
 
 (defn -main [& [port]]
   (let [port (Integer. (or port (System/getenv :port) 5000))]
-    (run-jetty 'app {:port port :join? false})))
+    (run-jetty app {:port port :join? false})))
