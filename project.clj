@@ -20,6 +20,7 @@
             [migratus-lein "0.7.2"]
             [lein-environ "1.1.0"]]
   :ring {:handler experiment.handler/app}
+  :uberjar-name "experiment-standalone"
   :migratus {:store :database
            :migration-dir "migrations"
              :db (get (System/getenv) "DATABASE_URL")}
