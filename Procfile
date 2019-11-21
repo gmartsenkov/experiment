@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -cp target/experiment-standalone.jar clojure.main -m experiment.handler
+web: java $JVM_OPTS -cp target/experiment-0.1.0-SNAPSHOT-standalone.jar clojure.main -m experiment.handler
