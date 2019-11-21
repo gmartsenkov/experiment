@@ -1,1 +1,1 @@
-web: lein migratus migrate && java $JVM_OPTS -cp target/experiment-standalone.jar clojure.main -m experiment.handler
+web: lein migratus migrate && java $JVM_OPTS -cp target/experiment-0.1.0-SNAPSHOT-standalone.jar clojure.main -m experiment.handler
