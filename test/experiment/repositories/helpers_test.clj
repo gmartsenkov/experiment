@@ -5,7 +5,7 @@
 
 (deftest test-add-timestamp
   (testing "adds timestamps"
-    (with-clock (mock-clock 0)
+    (with-clock (mock-clock 0 "Europe/London")
       (let [input {:test 1}
             result (add-timestamps input)
             now (sql-timestamp 1970 1 1 1)
@@ -14,7 +14,7 @@
 
 (deftest test-touch
   (testing "adds updated_at timestamp"
-    (with-clock (mock-clock 0)
+    (with-clock (mock-clock 0 "Europe/London")
       (let [input {:test 1 :updated_at "something"}
             result (touch input)
             now (sql-timestamp 1970 1 1 1)

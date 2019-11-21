@@ -34,7 +34,7 @@
       (is (= "bob@email" (:email (find user-2)))))))
 
 (deftest test-create
-  (with-clock (mock-clock 0)
+  (with-clock (mock-clock 0 "Europe/London")
     (let [now (sql-timestamp 1970 1 1 1)
           attributes {:first_name "Jon"
                       :last_name "Snow"
