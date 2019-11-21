@@ -14,7 +14,8 @@
                  [at.favre.lib/bcrypt "0.9.0"]
                  [com.fasterxml.jackson.core/jackson-databind "2.10.1"]
                  [com.auth0/java-jwt "3.8.3"]
-                 [ring/ring-defaults "0.3.2"]]
+                 [ring/ring-defaults "0.3.2"]
+                 [ring/ring-jetty-adapter "1.8.0"]]
   :plugins [[lein-ring "0.12.5"]
             [migratus-lein "0.7.2"]
             [lein-environ "1.1.0"]]
@@ -24,4 +25,5 @@
            :db (get (System/getenv) "DATABASE_URL")}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
-                        [ring/ring-mock "0.3.2"]]}})
+                        [ring/ring-mock "0.3.2"]]}
+   :uberjar { :aot :all :main experiment.handler} })

@@ -1,8 +1,10 @@
 (ns experiment.handler
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
+            [ring.adapter.jetty :refer [run-jetty]]
             [experiment.handlers.users :as users]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]])
+  (:gen-class))
 
 (defn- read-edn
   [string]
@@ -22,3 +24,7 @@
   (wrap-defaults
    app-routes
    (assoc-in site-defaults [:security :anti-forgery] false)))
+
+(defn -main [& [port]]
+  (let [port (Integer. (or port (System/getenv :port) 5000))]
+    (run-jetty 'app {:port port :join? false})))
