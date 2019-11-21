@@ -1,4 +1,5 @@
 (ns experiment.support.database
+  (:refer-clojure :exclude [count])
   (:require [clojure.java.jdbc :as jdbc]
             [experiment.core :refer [database]]
             [experiment.repositories.helpers :refer :all]))

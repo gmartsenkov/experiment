@@ -1,4 +1,5 @@
 (ns experiment.repositories.user
+  (:refer-clojure :exclude [update])
   (:require [clojure.java.jdbc :as jdbc]
             [experiment.core :refer [database]]
             [honeysql.core :as sql]
