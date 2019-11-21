@@ -25,6 +25,6 @@
    app-routes
    (assoc-in site-defaults [:security :anti-forgery] false)))
 
-(defn -main [& [port]]
-  (let [port (Integer. (or port (System/getenv :port) 5000))]
-    (run-jetty app {:port port :join? false})))
+(defn -main [& args]
+  (let [port (Integer/valueOf (System/getenv "PORT"))]
+    (run-jetty #'app {:port port :join? true})))
