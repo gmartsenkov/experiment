@@ -14,7 +14,8 @@
   (context "/api" []
     (GET "/ping" [] "pong")
     (context "/users" []
-      (POST "/signup" [body] (users/sign-up (read-edn body)))))
+      (POST "/signup" [body] (users/sign-up (read-edn body)))
+      (POST "/login" [body] (users/login (read-edn body)))))
   (route/not-found "Not Found"))
 
 (def app
