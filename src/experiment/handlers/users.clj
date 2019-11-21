@@ -8,7 +8,7 @@
   ([status body]
    {:status status
     :body (pr-str body)
-    :headers {"content/type" "application/edn"}}))
+    :headers {"Content-Type" "application/edn"}}))
 
 (defn sign-up
   [body]
