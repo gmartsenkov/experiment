@@ -11,16 +11,18 @@
     :headers {"Content-Type" "application/edn"}}))
 
 (defn sign-up
-  [body]
-  (let [[msg data] (signup-service/call body)]
+  [request]
+  (let [params (:params request)
+        [msg data] (signup-service/call params)]
     (case msg
       :invalid-attributes (response 400 data)
       :user-already-exists (response 400)
       :user-created (response 200 data))))
 
 (defn login
-  [body]
-  (let [[msg data] (login-service/call body)]
+  [request]
+  (let [params (:params request)
+        [msg data] (login-service/call params)]
     (case msg
       :invalid-attributes (response 400 data)
       :user-does-not-exist (response 404)

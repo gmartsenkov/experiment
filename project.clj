@@ -15,6 +15,7 @@
                  [com.fasterxml.jackson.core/jackson-databind "2.10.1"]
                  [com.auth0/java-jwt "3.8.3"]
                  [ring/ring-defaults "0.3.2"]
+                 [fogus/ring-edn "0.3.0"]
                  [ring/ring-jetty-adapter "1.8.0"]]
   :plugins [[lein-ring "0.12.5"]
             [migratus-lein "0.7.2"]

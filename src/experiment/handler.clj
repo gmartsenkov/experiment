@@ -1,28 +1,23 @@
 (ns experiment.handler
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
+            [ring.middleware.edn :refer :all]
             [ring.adapter.jetty :refer [run-jetty]]
             [experiment.handlers.users :as users]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]])
   (:gen-class))
 
-(defn- read-edn
-  [string]
-  (try
-    (read-string string)
-    (catch Exception e {})))
-
 (defroutes app-routes
   (context "/api" []
     (GET "/ping" [] "pong")
     (context "/users" []
-      (POST "/signup" [body] (users/sign-up (read-edn body)))
-      (POST "/login" [body] (users/login (read-edn body)))))
+      (POST "/signup" [:as req] (users/sign-up req))
+      (POST "/login" [:as req] (users/login req))))
   (route/not-found "Not Found"))
 
 (def app
   (wrap-defaults
-   app-routes
+   (wrap-edn-params app-routes)
    (assoc-in site-defaults [:security :anti-forgery] false)))
 
 (defn -main [& args]
