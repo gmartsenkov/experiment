@@ -1,7 +1,8 @@
 (ns experiment.handler
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
-            [ring.middleware.edn :refer :all]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [ring.middleware.json :refer [wrap-json-params]]
             [ring.adapter.jetty :refer [run-jetty]]
             [experiment.handlers.users :as users]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]])
@@ -17,7 +18,7 @@
 
 (def app
   (wrap-defaults
-   (wrap-edn-params app-routes)
+   (-> app-routes wrap-keyword-params wrap-json-params)
    (assoc-in site-defaults [:security :anti-forgery] false)))
 
 (defn -main [& args]

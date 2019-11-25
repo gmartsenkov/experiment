@@ -1,14 +1,15 @@
 (ns experiment.handlers.users
   (:require [experiment.services.user.create :as signup-service]
-            [experiment.services.user.login :as login-service]))
+            [experiment.services.user.login :as login-service]
+            [cheshire.core :refer :all]))
 
 (defn- response
   ([status]
    {:status status})
   ([status body]
    {:status status
-    :body (pr-str body)
-    :headers {"Content-Type" "application/edn"}}))
+    :body (generate-string body)
+    :headers {"Content-Type" "application/json"}}))
 
 (defn sign-up
   [request]
