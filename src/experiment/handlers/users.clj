@@ -28,4 +28,4 @@
       :invalid-attributes (response 400 data)
       :user-does-not-exist (response 404)
       :incorrect-password (response 404)
-      :signed-in (response 200 {:token data}))))
+      :signed-in (response 200 data))))

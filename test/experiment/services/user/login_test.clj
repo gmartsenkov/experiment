@@ -7,6 +7,9 @@
 
 (use-fixtures :each db/clear-db-fixture)
 
+(def expected-token
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2ZpcnN0X25hbWUiOiJKb24iLCJ1c2VyX2lkIjoyLCJ1c2VyX2xhc3RfbmFtZSI6IlNub3ciLCJpc3MiOiJleHBlcmltZW50In0.utYoO7VcdY3759WLGZYyrojk-OvcHoCZdkIl_rwWfSE")
+
 (deftest call
   (testing "when the params are invalid"
     (let [invalid-params {:email 1 :password 2}
@@ -26,6 +29,9 @@
           user (db/factory-build :user {:email "rob@stark.com" :password password})
           params {:email "rob@stark.com" :password "1234"}
           decoded-token {:user {:id 2 :first_name "Jon" :last_name "Snow"}}
-          [response token] (service/call params)]
+          expected-user {:id 2 :first_name "Jon" :last_name "Snow" :email "rob@stark.com"
+                         :token expected-token}
+          [response user] (service/call params)]
       (is (= :signed-in response))
-      (is (= decoded-token (jwt/decode token))))))
+      (is (= expected-user user))
+      (is (= decoded-token (jwt/decode (user :token)))))))

@@ -16,8 +16,11 @@
 (defn call
   [login]
   (let [user (get-user login)]
-      (cond
-        (spec/invalid? login) [:invalid-attributes (spec/errors login)]
-        (= user nil) [:user-does-not-exist]
-        (not(passwords-match? user login)) [:incorrect-password]
-        :else [:signed-in (jwt/encode user)])))
+    (cond
+      (spec/invalid? login) [:invalid-attributes (spec/errors login)]
+      (= user nil) [:user-does-not-exist]
+      (not(passwords-match? user login)) [:incorrect-password]
+      :else [:signed-in (-> (assoc
+                             user
+                             :token (jwt/encode user))
+                            (dissoc :password))])))

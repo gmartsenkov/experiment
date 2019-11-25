@@ -8,6 +8,9 @@
 
 (use-fixtures :each db/clear-db-fixture)
 
+(def jwt-token
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2ZpcnN0X25hbWUiOiJKb24iLCJ1c2VyX2lkIjoyLCJ1c2VyX2xhc3RfbmFtZSI6IlNub3ciLCJpc3MiOiJleHBlcmltZW50In0.utYoO7VcdY3759WLGZYyrojk-OvcHoCZdkIl_rwWfSE")
+
 (deftest test-sign-up
   (testing "with wrong params"
     (let [body (generate-string {:email "rob@stark" :first_name 3 :last_name 4 :password "1234"})
@@ -71,6 +74,10 @@
                          (mock/request :post "/api/users/login")
                          (mock/content-type "application/json")
                          (mock/body body)))
-          expected-body (generate-string {:token "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2ZpcnN0X25hbWUiOiJKb24iLCJ1c2VyX2lkIjoyLCJ1c2VyX2xhc3RfbmFtZSI6IlNub3ciLCJpc3MiOiJleHBlcmltZW50In0.utYoO7VcdY3759WLGZYyrojk-OvcHoCZdkIl_rwWfSE"})]
+          expected-body (generate-string {:id 2
+                                          :first_name "Jon"
+                                          :last_name "Snow"
+                                          :email "jon@snow.com"
+                                          :token jwt-token})]
       (is (= 200 (:status response)))
       (is (= expected-body (:body response))))))
