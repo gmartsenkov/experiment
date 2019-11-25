@@ -22,7 +22,7 @@
    (-> app-routes
        wrap-keyword-params
        wrap-json-params
-       (wrap-cors :access-control-allow-origin [#"localhost:3000"]
+       (wrap-cors :access-control-allow-origin [#"http://localhost:3000"]
                   :access-control-allow-methods [:get :put :post :delete]))
    (assoc-in site-defaults [:security :anti-forgery] false)))
 
