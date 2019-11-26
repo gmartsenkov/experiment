@@ -8,7 +8,7 @@
 (use-fixtures :each db/clear-db-fixture)
 
 (def expected-token
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2ZpcnN0X25hbWUiOiJKb24iLCJ1c2VyX2lkIjoyLCJ1c2VyX2xhc3RfbmFtZSI6IlNub3ciLCJpc3MiOiJleHBlcmltZW50In0.utYoO7VcdY3759WLGZYyrojk-OvcHoCZdkIl_rwWfSE")
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJpc3MiOiJleHBlcmltZW50In0.FOf6m_b6qsUxkMcMgZ75S3tN7MzGzmcC7x2u-tj4Cp0")
 
 (deftest call
   (testing "when the params are invalid"
@@ -28,10 +28,7 @@
     (let [password (bcrypt/encrypt "1234")
           user (db/factory-build :user {:email "rob@stark.com" :password password})
           params {:email "rob@stark.com" :password "1234"}
-          decoded-token {:user {:id 2 :first_name "Jon" :last_name "Snow"}}
-          expected-user {:id 2 :first_name "Jon" :last_name "Snow" :email "rob@stark.com"
-                         :token expected-token}
-          [response user] (service/call params)]
+          decoded-token {:user {:id 2}}
+          [response token] (service/call params)]
       (is (= :signed-in response))
-      (is (= expected-user user))
-      (is (= decoded-token (jwt/decode (user :token)))))))
+      (is (= decoded-token (jwt/decode token))))))

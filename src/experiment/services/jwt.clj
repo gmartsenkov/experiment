@@ -17,9 +17,7 @@
 (defn- map-claims
   "Map JWT claims into a clojure map"
   [claims]
-  {:user {:id (-> claims (.get "user_id") .asInt)
-          :first_name (-> claims (.get "user_first_name") .asString)
-          :last_name (-> claims (.get "user_last_name") .asString)}})
+  {:user {:id (-> claims (.get "user_id") .asInt)}})
 
 (defn encode
   "Generate a JWT token with the some basic user information"
@@ -27,8 +25,6 @@
   (-> (JWT/create)
       (.withIssuer issuer)
       (.withClaim "user_id" (:id user))
-      (.withClaim "user_first_name" (:first_name user))
-      (.withClaim "user_last_name" (:last_name user))
       (.sign algorithm)))
 
 (defn decode
