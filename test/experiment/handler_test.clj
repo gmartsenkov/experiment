@@ -7,8 +7,4 @@
   (testing "ping route"
     (let [response (app (mock/request :get "/api/ping"))]
       (is (= (:status response) 200))
-      (is (= (:body response) "pong"))))
-
-  (testing "not-found route"
-    (let [response (app (mock/request :get "/invalid"))]
-      (is (= (:status response) 404)))))
+      (is (= (:body response) "pong")))))
