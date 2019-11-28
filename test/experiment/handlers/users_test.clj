@@ -94,8 +94,11 @@
     (testing "when the user exists"
       (db/clear-db)
       (let [user (db/factory-build :user {:id 2 :email "jon@snow.com"})
+            expected (generate-string
+                      {:id 2 :first_name "Jon" :last_name "Snow" :email "jon@snow.com"})
             response (app (->
                            (mock/request :get "/api/users/profile")
                            (mock/content-type "application/json")
                            (mock/header "Authorization" jwt-token)))]
-        (is (= 200 (:status response)))))))
+        (is (= 200 (:status response)))
+        (is (= expected (:body response)))))))
