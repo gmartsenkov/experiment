@@ -1,6 +1,7 @@
 (ns experiment.handlers.users
   (:require [experiment.services.user.create :as signup-service]
             [experiment.services.user.login :as login-service]
+            [experiment.services.user.profile :as profile-service]
             [cheshire.core :refer :all]))
 
 (defn- response
@@ -29,3 +30,11 @@
       :user-does-not-exist (response 404)
       :incorrect-password (response 404)
       :signed-in (response 200 {:token data}))))
+
+(defn profile
+  [request]
+  (let [user-id (get-in request [:user :id])
+        [msg data] (profile-service/call user-id)]
+    (case msg
+      :user-not-found (response 404)
+      :profile-show (response 200 data))))

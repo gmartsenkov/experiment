@@ -18,8 +18,8 @@
       (testing "when header is missing"
         (is (= unauthorized (subject {:uri "/user"}))))
       (testing "when header is there with invalid authorization"
-        (is (= unauthorized (subject {:uri "/user" :headers { :authorization "invalid"}}))))
+        (is (= unauthorized (subject {:uri "/user" :headers { "authorization" "invalid"}}))))
       (testing "when token is valid"
-        (let [request {:uri "/user" :headers { :authorization valid-token}}
+        (let [request {:uri "/user" :headers { "authorization" valid-token}}
               expected (merge request {:user { :id 2 }})]
           (is (= expected (subject request))))))))

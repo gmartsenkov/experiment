@@ -3,7 +3,7 @@
             [experiment.services.jwt :refer [decode]]))
 
 (defn- authorized? [request]
-  (let [token (get-in request [:headers :authorization])]
+  (let [token (get-in request [:headers "authorization"])]
     (when token
       (let [decoded (decode token)]
         (case decoded
@@ -21,6 +21,7 @@
         (let [decoded (authorized? request)]
           (if decoded
             (->
-             (handler request)
-             (assoc-in [:user] (:user decoded)))
+             request
+             (assoc :user (:user decoded))
+             handler)
             {:status 401}))))))

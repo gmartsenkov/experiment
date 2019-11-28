@@ -77,3 +77,25 @@
           expected-body (generate-string {:token jwt-token})]
       (is (= 200 (:status response)))
       (is (= expected-body (:body response))))))
+
+(deftest test-profile
+  (testing "when not authorized"
+    (let [response (app (->
+                         (mock/request :get "/api/users/profile")
+                         (mock/content-type "application/json")))]
+      (is (= 401 (:status response)))))
+  (testing "when authorized"
+    (testing "when user does not exist"
+      (let [response (app (->
+                           (mock/request :get "/api/users/profile")
+                           (mock/content-type "application/json")
+                           (mock/header "Authorization" jwt-token)))]
+        (is (= 404 (:status response)))))
+    (testing "when the user exists"
+      (db/clear-db)
+      (let [user (db/factory-build :user {:id 2 :email "jon@snow.com"})
+            response (app (->
+                           (mock/request :get "/api/users/profile")
+                           (mock/content-type "application/json")
+                           (mock/header "Authorization" jwt-token)))]
+        (is (= 200 (:status response)))))))

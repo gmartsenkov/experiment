@@ -15,7 +15,8 @@
     (GET "/ping" [] "pong")
     (context "/users" []
       (POST "/signup" [:as req] (users/sign-up req))
-      (POST "/login" [:as req] (users/login req))))
+      (POST "/login" [:as req] (users/login req))
+      (GET "/profile" [:as req] (users/profile req))))
   (route/not-found "Not Found"))
 
 (def auth-exceptions

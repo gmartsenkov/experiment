@@ -1,6 +1,5 @@
 (ns experiment.services.user.login
-  (:require [experiment.services.bcrypt :as bcrypt]
-            [experiment.repositories.user :as user-repo]
+  (:require [experiment.repositories.user :as user-repo]
             [experiment.services.bcrypt :as bcrypt]
             [experiment.services.jwt :as jwt]
             [experiment.specs.login :as spec]))
