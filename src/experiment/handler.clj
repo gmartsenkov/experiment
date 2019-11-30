@@ -30,7 +30,8 @@
        wrap-keyword-params
        wrap-json-params
        (wrap-auth {:exceptions auth-exceptions})
-       (wrap-cors :access-control-allow-origin [#"http://localhost:3000"]
+       (wrap-cors :access-control-allow-origin [#"http://localhost:3000"
+                                                #"https://shadow-fe.herokuapp.com"]
                   :access-control-allow-methods [:get :put :post :delete]))
    (assoc-in site-defaults [:security :anti-forgery] false)))
 
