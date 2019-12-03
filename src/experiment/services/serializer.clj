@@ -13,8 +13,9 @@
   [object options]
   (let [attributes (:attributes options)
         type (:type options)]
-    {:id (:id object)
-     :type type
-     :attributes (merge
-                  (empty-attributes-map attributes)
-                  (select-keys object attributes))}))
+    {:data
+     {:id (:id object)
+      :type type
+      :attributes (merge
+                   (empty-attributes-map attributes)
+                   (select-keys object attributes))}}))

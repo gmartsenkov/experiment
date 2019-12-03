@@ -6,13 +6,13 @@
   (testing "type"
     (let [object {}
           options {:type "users" :attributes '()}]
-      (is (= "users" (:type (serialize object options))))))
+      (is (= "users" (-> (serialize object options) :data :type)))))
   (testing "id"
     (let [object {:id 66}
           options {:type "users" :attributes '()}]
-      (is (= 66 (:id (serialize object options))))))
+      (is (= 66 (-> (serialize object options) :data :id)))))
   (testing "attributes"
     (let [object {:id 1 :age 16 :name "Billy" :gender "male"}
           options {:type "users" :attributes '(:age :name :location)}]
       (is (= {:age 16 :name "Billy" :location nil}
-             (:attributes (serialize object options)))))))
+             (-> (serialize object options) :data :attributes))))))
