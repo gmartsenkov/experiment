@@ -1,4 +1,4 @@
-f(ns experiment.serializers.user
+(ns experiment.serializers.user
   (:require [experiment.services.serializer :as s]))
 
 (def options {:type "users"

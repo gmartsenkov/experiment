@@ -7,13 +7,12 @@
             [experiment.repositories.helpers :refer :all]))
 
 (def ^:private table :users)
-(def ^:private visible_fields [:id :first_name :last_name :email])
 
 (defn by-id
   "Fetches the user by id"
   [id]
   (first (jdbc/query database (sql/format
-                               {:select visible_fields
+                               {:select [:*]
                                 :from [table]
                                 :where [:= :id id]}))))
 
@@ -21,7 +20,7 @@
   "Fetches the user by email"
   [email]
   (first (jdbc/query database (sql/format
-                               {:select (conj visible_fields :password)
+                               {:select [:*]
                                 :from [table]
                                 :where [:= :email email]}))))
 
