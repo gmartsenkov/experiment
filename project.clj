@@ -18,6 +18,7 @@
                  [ring/ring-defaults "0.3.2"]
                  [ring-cors "0.1.13"]
                  [ring/ring-json "0.5.0"]
+                 [phrase "0.3-alpha4"]
                  [ring/ring-jetty-adapter "1.8.0"]]
   :plugins [[lein-ring "0.12.5"]
             [migratus-lein "0.7.2"]

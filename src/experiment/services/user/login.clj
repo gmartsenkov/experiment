@@ -13,10 +13,11 @@
   (bcrypt/match? (:password login) (:password user)))
 
 (defn call
-  [login]
-  (let [user (get-user login)]
+  [data]
+  (let [attributes (get-in data [:data :attributes])
+        user (get-user attributes)]
     (cond
-      (spec/invalid? login) [:invalid-attributes (spec/errors login)]
+      (not (spec/valid? data)) [:invalid-attributes (spec/errors data)]
       (= user nil) [:user-does-not-exist]
-      (not(passwords-match? user login)) [:incorrect-password]
+      (not(passwords-match? user attributes)) [:incorrect-password]
       :else [:signed-in (jwt/encode user)])))

@@ -13,17 +13,27 @@
 
 (deftest test-sign-up
   (testing "with wrong params"
-    (let [body (generate-string {:email "rob@stark" :first_name 3 :last_name 4 :password "1234"})
+    (let [body (generate-string
+                {:data
+                 {:type "users"
+                  :attributes {:email "rob@stark"
+                               :first_name 3
+                               :last_name 4
+                               :password "1234"}}})
           response (app (->
                          (mock/request :post "/api/users/signup")
                          (mock/content-type "application/json")
                          (mock/body body)))
-          expected-body (generate-string '({:path [:first_name], :pred clojure.core/string?, :val 3} {:path [:last_name], :pred clojure.core/string?, :val 4}))]
+          expected-body (generate-string
+                         [{:path [:data :attributes :first_name] :msg "First name is not a string."}
+                          {:path [:data :attributes :last_name] :msg "Last name is not a string."}])]
       (is (= 400 (:status response)))
       (is (= expected-body (:body response)))))
   (testing "when user already exists"
     (let [user (db/factory-build :user {})
-          body (generate-string {:email (:email user) :first_name "Jon" :last_name "Snow" :password "1234"})
+          body (generate-string {:data
+                                 {:type "users"
+                                  :attributes {:email (:email user) :first_name "Jon" :last_name "Snow" :password "1234"}}})
           response (app (->
                          (mock/request :post "/api/users/signup")
                          (mock/content-type "application/json")
@@ -31,7 +41,9 @@
       (is (= 400 (:status response)))
       (is (= "" (:body response)))))
   (testing "when params are correct and user does not exist"
-    (let [body (generate-string {:email "rob@stark" :first_name "Rob" :last_name "Stark" :password "1234"})
+    (let [body (generate-string {:data
+                                 {:type "users"
+                                 :attributes {:email "rob@stark" :first_name "Rob" :last_name "Stark" :password "1234"}}})
           response (app (->
                          (mock/request :post "/api/users/signup")
                          (mock/content-type "application/json")
@@ -42,16 +54,18 @@
 
 (deftest test-login
   (testing "when params are wrong"
-    (let [body (generate-string {:email "rob@stark"})
+    (let [body (generate-string {:data {:type "users"
+                                        :attributes {:email "rob@stark"}}})
           response (app (->
                          (mock/request :post "/api/users/login")
                          (mock/content-type "application/json")
                          (mock/body body)))
-          expected-body (generate-string '({:path [], :pred (clojure.core/fn [%] (clojure.core/contains? % :password)), :val {:email "rob@stark"}}))]
+          expected-body (generate-string [{:path [:data :attributes] :msg "Password is missing."}])]
       (is (= 400 (:status response)))
       (is (= expected-body (:body response)))))
   (testing "when user does not exist"
-    (let [body (generate-string {:email "rob@stark" :password "1234"})
+    (let [body (generate-string {:data {:type "users"
+                                        :attributes {:email "rob@stark" :password "1234"}}})
           response (app (->
                          (mock/request :post "/api/users/login")
                          (mock/content-type "application/json")
@@ -60,7 +74,8 @@
   (testing "when password is wrong"
     (let [password (bcrypt/encrypt "1234")
           user (db/factory-build :user {:email "rob@stark.com" :password password})
-          body (generate-string {:email (:email user) :password "incorrect"})
+          body (generate-string {:data {:type "users"
+                                        :attributes {:email (:email user) :password "incorrect"}}})
           response (app (->
                          (mock/request :post "/api/users/login")
                          (mock/content-type "application/json")
@@ -69,7 +84,8 @@
   (testing "when email and password are correct"
     (let [password (bcrypt/encrypt "1234")
           user (db/factory-build :user {:email "jon@snow.com" :password password})
-          body (generate-string {:email (:email user) :password "1234"})
+          body (generate-string {:data {:type "users"
+                                        :attributes {:email (:email user) :password "1234"}}})
           response (app (->
                          (mock/request :post "/api/users/login")
                          (mock/content-type "application/json")

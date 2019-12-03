@@ -12,9 +12,10 @@
   (assoc user :password (bcrypt/encrypt (:password user))))
 
 (defn call
-  [attrs]
-  (cond
-    (spec/invalid? attrs) [:invalid-attributes (spec/errors attrs)]
-    (user-exists? attrs) [:user-already-exists]
-    :else (let [user-with-encrypted-password (encrypt-password attrs)]
-            [:user-created (user-repo/create user-with-encrypted-password)])))
+  [data]
+  (let [attributes (get-in data [:data :attributes])]
+    (cond
+      (not (spec/valid? data)) [:invalid-attributes (spec/errors data)]
+      (user-exists? attributes) [:user-already-exists]
+      :else (let [user-with-encrypted-password (encrypt-password attributes)]
+              [:user-created (user-repo/create user-with-encrypted-password)]))))
