@@ -110,7 +110,12 @@
       (db/clear-db)
       (let [user (db/factory-build :user {:id 2 :email "jon@snow.com"})
             expected (generate-string
-                      {:id 2 :first_name "Jon" :last_name "Snow" :email "jon@snow.com"})
+                      {:data {:id 2
+                              :type "users"
+                              :attributes {
+                                           :first_name "Jon"
+                                           :last_name "Snow"
+                                           :email "jon@snow.com"}}})
             response (app (->
                            (mock/request :get "/api/users/profile")
                            (mock/content-type "application/json")

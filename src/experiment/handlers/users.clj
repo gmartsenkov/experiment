@@ -2,6 +2,7 @@
   (:require [experiment.services.user.create :as signup-service]
             [experiment.services.user.login :as login-service]
             [experiment.services.user.profile :as profile-service]
+            [experiment.serializers.user :as user-serializer]
             [cheshire.core :refer :all]))
 
 (defn- response
@@ -34,7 +35,7 @@
 (defn profile
   [request]
   (let [user-id (get-in request [:user :id])
-        [msg data] (profile-service/call user-id)]
+        [msg user] (profile-service/call user-id)]
     (case msg
       :user-not-found (response 404)
-      :profile-show (response 200 data))))
+      :profile-show (response 200 (user-serializer/serialize user)))))
