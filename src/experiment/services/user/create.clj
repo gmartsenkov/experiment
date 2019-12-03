@@ -11,11 +11,14 @@
   [user]
   (assoc user :password (bcrypt/encrypt (:password user))))
 
+(def ^:private user-already-exists [:user-already-exists
+                                    [{:path [] :msg "User with that email already exists."}]])
+
 (defn call
   [data]
   (let [attributes (get-in data [:data :attributes])]
     (cond
       (not (spec/valid? data)) [:invalid-attributes (spec/errors data)]
-      (user-exists? attributes) [:user-already-exists]
+      (user-exists? attributes) user-already-exists
       :else (let [user-with-encrypted-password (encrypt-password attributes)]
               [:user-created]))))

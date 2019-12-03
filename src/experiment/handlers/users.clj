@@ -18,7 +18,7 @@
         [msg data] (signup-service/call params)]
     (case msg
       :invalid-attributes (response 400 data)
-      :user-already-exists (response 400)
+      :user-already-exists (response 400 data)
       :user-created (response 200))))
 
 (defn login

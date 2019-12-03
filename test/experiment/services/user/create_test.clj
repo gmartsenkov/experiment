@@ -15,8 +15,9 @@
   (testing "when user already exists"
     (let [user (db/factory-build :user {})
           params {:data {:type "users"
-                  :attributes {:email (:email user) :first_name "Jon" :last_name "Snow" :password "1234"}}}]
-      (is (= [:user-already-exists] (service/call params)))))
+                         :attributes {:email (:email user) :first_name "Jon" :last_name "Snow" :password "1234"}}}
+          error [{:path [] :msg "User with that email already exists."}]]
+      (is (= [:user-already-exists error] (service/call params)))))
   (testing "when params are valid and user does not exist"
     (with-clock (mock-clock 0)
       (let [params {:data {:type "users"

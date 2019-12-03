@@ -37,9 +37,10 @@
           response (app (->
                          (mock/request :post "/api/users/signup")
                          (mock/content-type "application/json")
-                         (mock/body body)))]
+                         (mock/body body)))
+          error (generate-string [{:path [] :msg "User with that email already exists."}])]
       (is (= 400 (:status response)))
-      (is (= "" (:body response)))))
+      (is (= error (:body response)))))
   (testing "when params are correct and user does not exist"
     (let [body (generate-string {:data
                                  {:type "users"
