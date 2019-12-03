@@ -19,7 +19,7 @@
     (case msg
       :invalid-attributes (response 400 data)
       :user-already-exists (response 400)
-      :user-created (response 200 data))))
+      :user-created (response 200))))
 
 (defn login
   [request]

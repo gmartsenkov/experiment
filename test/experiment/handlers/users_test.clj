@@ -47,10 +47,8 @@
           response (app (->
                          (mock/request :post "/api/users/signup")
                          (mock/content-type "application/json")
-                         (mock/body body)))
-          expected-body (generate-string {:id 2, :first_name "Rob", :last_name "Stark", :email "rob@stark"})]
-      (is (= 200 (:status response)))
-      (is (= expected-body (:body response))))))
+                         (mock/body body)))]
+      (is (= 200 (:status response))))))
 
 (deftest test-login
   (testing "when params are wrong"

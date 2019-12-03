@@ -18,4 +18,4 @@
       (not (spec/valid? data)) [:invalid-attributes (spec/errors data)]
       (user-exists? attributes) [:user-already-exists]
       :else (let [user-with-encrypted-password (encrypt-password attributes)]
-              [:user-created (user-repo/create user-with-encrypted-password)]))))
+              [:user-created]))))
