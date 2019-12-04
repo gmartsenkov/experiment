@@ -7,7 +7,8 @@
 (defn clear-db
   "Helper function to clear the database between tests"
   []
-  (jdbc/execute! database ["TRUNCATE TABLE users RESTART IDENTITY"]))
+  (jdbc/execute! database ["TRUNCATE TABLE users RESTART IDENTITY"])
+  (jdbc/execute! database ["TRUNCATE TABLE categories RESTART IDENTITY"]))
 
 (defn count
   "Helper function to return the row count of a table"
@@ -24,11 +25,11 @@
 
 (def ^:private default-attributes
   "Contains all the default attributes for the factory-build function"
-  {:user {
-          :first_name "Jon"
+  {:user {:first_name "Jon"
           :last_name "Snow"
           :email "jon@email"
-          :password "secret"}})
+          :password "secret"}
+   :category {:name "Computers"}})
 
 (defn- insert
   "Inserts a record into the specified table in the database"
@@ -40,6 +41,7 @@
   [relation attributes]
   (case relation
     :user (insert :users (conj (:user default-attributes) attributes))
+    :category (insert :categories (conj (:category default-attributes) attributes))
     (throw (Exception. (format "Factory %s does not exist" relation)))))
 
 (defn clear-db-fixture
