@@ -4,4 +4,4 @@
 (def options {:type "users"
               :attributes '(:first_name :last_name :email)})
 
-(defn serialize [obj] (s/serialize obj options))
+(defn serialize [data] (s/serialize data options))
