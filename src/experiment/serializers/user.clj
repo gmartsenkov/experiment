@@ -4,4 +4,6 @@
 (def options {:type "users"
               :attributes '(:first_name :last_name :email)})
 
-(defn serialize [data] (s/serialize data options))
+(defn serialize [data & args]
+  (let [additional-options (apply hash-map args)]
+    (s/serialize data (conj options additional-options))))
