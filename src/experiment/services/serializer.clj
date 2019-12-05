@@ -8,8 +8,7 @@
   [attributes]
   (into {} (map (fn [key] {key nil}) attributes)))
 
-(defn serialize
-  "Serializes an object in JSONApi format"
+(defn- serialize-single
   [object options]
   (let [attributes (:attributes options)
         type (:type options)]
@@ -19,3 +18,9 @@
       :attributes (merge
                    (empty-attributes-map attributes)
                    (select-keys object attributes))}}))
+(defn serialize
+  "Serializes an object in JSONApi format"
+  [data options]
+  (if (:is-collection options)
+    (map #(serialize-single % options) data)
+    (serialize-single data options)))
