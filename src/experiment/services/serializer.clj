@@ -12,15 +12,14 @@
   [object options]
   (let [attributes (:attributes options)
         type (:type options)]
-    {:data
-     {:id (:id object)
-      :type type
-      :attributes (merge
-                   (empty-attributes-map attributes)
-                   (select-keys object attributes))}}))
+    {:id (:id object)
+     :type type
+     :attributes (merge
+                  (empty-attributes-map attributes)
+                  (select-keys object attributes))}))
 (defn serialize
   "Serializes an object in JSONApi format"
   [data options]
-  (if (:is-collection options)
-    (map #(serialize-single % options) data)
-    (serialize-single data options)))
+  {:data (if (:is-collection options)
+           (map #(serialize-single % options) data)
+           (serialize-single data options))})
