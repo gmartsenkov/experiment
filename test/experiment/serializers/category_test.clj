@@ -12,6 +12,6 @@
              (serialize category)))))
   (testing "serializes a collection in JSONAPI format"
     (let [categories [{:id 1 :name "Tech"} {:id 2 :name "Beauty"}]]
-      (is (= [{:data {:id 1 :type "categories" :attributes {:name "Tech"}}}
-              {:data {:id 2 :type "categories" :attributes {:name "Beauty"}}}]
+      (is (= {:data [{:id 1 :type "categories" :attributes {:name "Tech"}}
+                     {:id 2 :type "categories" :attributes {:name "Beauty"}}]}
              (serialize categories :is-collection true))))))
