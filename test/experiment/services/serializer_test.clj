@@ -15,4 +15,11 @@
     (let [object {:id 1 :age 16 :name "Billy" :gender "male"}
           options {:type "users" :attributes '(:age :name :location)}]
       (is (= {:age 16 :name "Billy" :location nil}
-             (-> (serialize object options) :data :attributes))))))
+             (-> (serialize object options) :data :attributes)))))
+  (testing "is-collection"
+    (let [objects [{:id 1 :age 16 :name "Billy" :gender "male"}
+                   {:id 2 :age 32 :name "John" :gender "male"}]
+          options {:type "users" :attributes '(:age :name :location) :is-collection true}]
+      (is (= [{:data {:id 1 :type "users" :attributes {:age 16, :name "Billy", :location nil}}}
+              {:data {:id 2 :type "users" :attributes {:age 32, :name "John", :location nil}}}]
+             (serialize objects options))))))

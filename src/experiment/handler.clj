@@ -7,6 +7,7 @@
             [ring.adapter.jetty :refer [run-jetty]]
             [experiment.middlewares.jwt :refer [wrap-auth]]
             [experiment.handlers.users :as users]
+            [experiment.handlers.categories :as categories]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]])
   (:gen-class))
 
@@ -16,12 +17,14 @@
     (context "/users" []
       (POST "/signup" [:as req] (users/sign-up req))
       (POST "/login" [:as req] (users/login req))
-      (GET "/profile" [:as req] (users/profile req))))
+      (GET "/profile" [:as req] (users/profile req)))
+    (GET "/categories" [] (categories/categories)))
   (route/not-found "Not Found"))
 
 (def auth-exceptions
   ["/api/users/login"
    "/api/users/signup"
+   "/api/categories"
    "/api/ping"])
 
 (def app

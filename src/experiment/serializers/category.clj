@@ -1,8 +1,8 @@
-(ns experiment.serializers.user
+(ns experiment.serializers.category
   (:require [experiment.services.serializer :as s]))
 
-(def options {:type "users"
-              :attributes '(:first_name :last_name :email)})
+(def options {:type "categories"
+              :attributes '(:name)})
 
 (defn serialize [data & args]
   (let [additional-options (apply hash-map args)]
